@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quote Vibe</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: background 1s;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+    .quote {
+      font-size: 1.2rem;
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+    .author {
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #fda085;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #fc8455;
+    }
+    .disclaimer {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Quote Vibe ✨</h1>
+    <div id="quoteDisplay" class="quote">“Stay hungry, stay foolish.”</div>
+    <div id="authorDisplay" class="author">— Steve Jobs</div>
+
+    <button onclick="showRandomQuote()">New Quote</button>
+
+    <hr style="margin: 1.5rem 0;">
+
+    <h2>Submit Your Quote</h2>
+    <p class="disclaimer">
+      🚫 <strong>Please note:</strong> Do not post abusive, hateful, or offensive content. Submissions should be respectful and uplifting for everyone.
+    </p>
+
+    <textarea id="newQuote" placeholder="Enter your quote here..."></textarea>
+    <input type="text" id="newAuthor" placeholder="Author (optional)">
+    <button onclick="submitQuote()">Submit Quote</button>
+  </div>
+
+  <script>
+    const quotes = [
+      { text: "Be yourself; everyone else is already taken.", author: "Oscar Wilde" },
+      { text: "Two things are infinite: the universe and human stupidity.", author: "Einstein" },
+      { text: "So it goes.", author: "Kurt Vonnegut" },
+      { text: "Dream big. Start small. Act now.", author: "Robin Sharma" },
+      { text: "Stay hungry, stay foolish.", author: "Steve Jobs" }
+    ];
+
+    const badWords = ["abuse", "hate", "kill", "stupid", "idiot", "dumb"]; // Add more as needed
+
+    function containsBadWords(text) {
+      return badWords.some(word => text.toLowerCase().includes(word));
+    }
+
+    function showRandomQuote() {
+      const random = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById("quoteDisplay").textContent = `“${random.text}”`;
+      document.getElementById("authorDisplay").textContent = `— ${random.author}`;
+      document.body.style.background = `linear-gradient(135deg, ${randomColor()}, ${randomColor()})`;
+    }
+
+    function submitQuote() {
+      const text = document.getElementById("newQuote").value.trim();
+      const author = document.getElementById("newAuthor").value.trim() || "Anonymous";
+
+      if (!text) {
+        alert("Please enter a quote.");
+        return;
+      }
+
+      if (containsBadWords(text)) {
+        alert("🚫 Your quote contains inappropriate language. Please keep it respectful.");
+        return;
+      }
+
+      const newQuote = { text, author };
+      quotes.unshift(newQuote);
+      document.getElementById("newQuote").value = "";
+      document.getElementById("newAuthor").value = "";
+      showRandomQuote();
+      alert("✅ Quote submitted successfully!");
+    }
+
+    function randomColor() {
+      const colors = ["#f6d365", "#fda085", "#a1c4fd", "#c2e9fb", "#d4fc79", "#96e6a1"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+  </script>
+
+</body>
+</html>
